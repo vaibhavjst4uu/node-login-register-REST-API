@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-// let path = require('path');
-let ejs = require("ejs");
+let path = require('path');
+let ejs = require('ejs');
+
 console.log(process.env.user);
 console.log(process.env.password);
 
@@ -15,8 +16,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendRegistrationEmail = (userEmail) => {
+const sendRegistrationEmail = async(userName,userEmail) => {
   // const html = ejs.render('../Views/registrationEmailTemplate', { userName, userEmail });
+  const template = path.join(__dirname,"../Views/registrationEmailTemplate.ejs");
+  const data = await ejs.renderFile(template, {userName,userEmail});
 
   const mailOptions = {
     from: {
@@ -25,9 +28,9 @@ const sendRegistrationEmail = (userEmail) => {
     },
     to: userEmail,
     subject: "Welcome to our Website",
+    html: data
     // text: 'Thank you for registering on Your Website. We look forward to having you as a member!',
-    html: "<h1>Thank you for registering on our Website. We look forward to having you as a member!</h1>",
-    //    html: html,
+    // html: "<h1>Thank you for registering on our Website. We look forward to having you as a member!</h1>",
     // attchments:[
     //     {
     //         filename:'profilepic.jpg', // the file you want to send as attachments
