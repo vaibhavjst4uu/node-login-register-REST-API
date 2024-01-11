@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../Models/dbModel");
+let { sendRegistrationEmail } = require('./nodeMailer');
 let User = db.users;
 const SECRET_KEY = "vaibhav"; // Change this to your secret key
 
@@ -56,7 +57,7 @@ let validateCredentials = (e) => {
      
     });
   }
-  console.log(e.errors);
+  // console.log(e.errors);
   return responseFormate;
 };
 
@@ -75,6 +76,10 @@ const register = async (req, res) => {
 
   try {
     const user = await User.create(data);
+
+    //sending mail with node mailer
+    sendRegistrationEmail(user.email);
+
 
     res.status(200).json({
       statusCode: 200,
