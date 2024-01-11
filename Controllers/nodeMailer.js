@@ -1,14 +1,14 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 // let path = require('path');
-let ejs = require('ejs');
+let ejs = require("ejs");
 console.log(process.env.user);
 console.log(process.env.password);
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-//   host:"smtp.gmail.com",// use this in case of other service provider gmail take care of every thing 
-// PORT:587,
+  service: "gmail",
+  //   host:"smtp.gmail.com",// use this in case of other service provider gmail take care of every thing
+  // PORT:587,
   auth: {
     user: process.env.user,
     pass: process.env.password,
@@ -16,15 +16,15 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendRegistrationEmail = (userEmail) => {
-    // const html = ejs.render('../Views/registrationEmailTemplate', { userName, userEmail });
+  // const html = ejs.render('../Views/registrationEmailTemplate', { userName, userEmail });
 
   const mailOptions = {
-    from:{
-        name:"Vaibhav Raj",
-        address: process.env.user,
+    from: {
+      name: "Vaibhav Raj",
+      address: process.env.user,
     },
     to: userEmail,
-    subject: 'Welcome to our Website',
+    subject: "Welcome to our Website",
     // text: 'Thank you for registering on Your Website. We look forward to having you as a member!',
     html: "<h1>Thank you for registering on our Website. We look forward to having you as a member!</h1>",
     //    html: html,
@@ -42,7 +42,7 @@ const sendRegistrationEmail = (userEmail) => {
     if (error) {
       console.error(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log("Email sent: " + info.response);
     }
   });
 };

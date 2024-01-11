@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../Models/dbModel");
-let { sendRegistrationEmail } = require('./nodeMailer');
+let { sendRegistrationEmail } = require("./nodeMailer");
 let User = db.users;
 const SECRET_KEY = "vaibhav"; // Change this to your secret key
 
@@ -26,9 +26,9 @@ let validateCredentials = (e) => {
       // console.log(emailAttribute);
 
       if (!isChecked) {
-        if (emailAttribute.unique && error.validatorKey === 'not_unique') {
+        if (emailAttribute.unique && error.validatorKey === "not_unique") {
           responseFormate.error.push({
-            field: 'Email',
+            field: "Email",
             message: emailAttribute.unique.msg,
           });
           isChecked = true;
@@ -54,7 +54,6 @@ let validateCredentials = (e) => {
           message: error.message,
         });
       }
-     
     });
   }
   // console.log(e.errors);
@@ -79,7 +78,6 @@ const register = async (req, res) => {
 
     //sending mail with node mailer
     sendRegistrationEmail(user.email);
-
 
     res.status(200).json({
       statusCode: 200,
