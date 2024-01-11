@@ -21,6 +21,18 @@ let validateCredentials = (e) => {
     e.errors.forEach((error) => {
       // console.log(error.path);
 
+      const emailAttribute = User.rawAttributes.email;
+      // console.log(emailAttribute);
+
+      if (!isChecked) {
+        if (emailAttribute.unique && error.validatorKey === 'not_unique') {
+          responseFormate.error.push({
+            field: 'Email',
+            message: emailAttribute.unique.msg,
+          });
+          isChecked = true;
+        }
+      }
       if (error.validatorKey === "isEmail") {
         responseFormate.error.push({
           field: error.path,
@@ -35,24 +47,16 @@ let validateCredentials = (e) => {
         });
       }
 
-      if (error.validatorKey === "isAlphanumeric") {
+      if (error.validatorKey === "isStrongPassword") {
         responseFormate.error.push({
           field: error.path,
           message: error.message,
         });
       }
-      const emailAttribute = User.rawAttributes.email;
-      if (!isChecked) {
-        if (emailAttribute.unique) {
-          responseFormate.error.push({
-            field: "Email",
-            message: emailAttribute.unique.msg,
-          });
-        }
-        isChecked = true;
-      }
+     
     });
   }
+  console.log(e.errors);
   return responseFormate;
 };
 

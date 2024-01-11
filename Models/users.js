@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         unique: {
+          args:true,  
           msg: "email already in use",
         },
         validate: {
@@ -35,10 +36,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlphanumeric: {
-            msg: "Password should contain alphanumeric characters only.",
-          },
+        //   isAlphanumeric: {
+        //     msg: "Password should contain alphanumeric characters only.",
+        //   },
+        //   is: {
+        //     args: /^[a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/,
+        //     msg: 'Your password should contain small,capital letters,numbers 0-9 and special characters .',
+        //   },
           // len:[4,10],
+          isStrongPassword(value) {
+            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{5,15}/.test(value)) {
+              throw new Error("Password must have 1 lowercase, 1 uppercase, 1 special character, and be 5-10 characters long.");
+            }
+        },
           notEmpty: { msg: "Password cannot be empty" },
         },
       },
